@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Bot Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- تضمين مكتبة QRCode من CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>لوحة تحكم البوت</h1>
+        
+        <% if (settings && settings.phone) { %>
+            <div class="status connected">
+                <p>الحساب: <%= settings.phone %></p>
+                <p>الحالة: متصل ✅</p>
+            </div>
+            
+            <form action="/update-settings" method="post">
+                <textarea name="message" placeholder="الرسالة"><%= settings.message %></textarea>
+                
+                <label>
+                    <input type="checkbox" name="isActive" <%= settings.isActive ? 'checked' : '' %>>
+                    تشغيل الإرسال التلقائي
+                </label>
+                
+                <button type="submit">حفظ الإعدادات</button>
+            </form>
+            
+            <form action="/logout" method="post">
+                <button type="submit" class="logout">تسجيل الخروج</button>
+            </form>
+        <% } else { %>
+            <div class="status disconnected">
+                <p>الحالة: غير متصل ❌</p>
+                <div id="qrcode"></div>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>
