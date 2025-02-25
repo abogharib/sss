@@ -182,7 +182,7 @@ app.post('/logout', async (req, res) => {
 
 // ─── تهيئة التطبيق ─────────────────────────────────────
 async function initialize() {
-  await sequelize.sync({ force: true });
+  await sequelize.sync({ force: false });
   await Settings.findOrCreate({ where: { id: 1 } });
   
   io.on('connection', (socket) => {
